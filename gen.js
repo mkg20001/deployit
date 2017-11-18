@@ -98,21 +98,43 @@ function script(pth, ctxOnly) {
   return scriptProcess(pth, ctx)
 }
 
+function doWin() {
+  const main = script(p("main/main_win.sh"))
+  const mainh = ipfsAddBuf(main)
+  const pre_main = script(p("pre/pre_win.ps1")).replace("SCRIPTSC", ipfsDL(mainh))
+  const pre_mainh = ipfsAddBuf(pre_main)
+  const pre = read(p("pre/preamble_win.ps1"))
+  const presc = pre.replace("DOWNLOAD", ipfsDL(pre_mainh))
+  
+  console.log("---SCRIPT---")
+  console.log(presc)
+  console.log("---PRE---")
+  console.log(pre_main)
+  console.log("---MAIN---")
+  console.log(main)
+}
+
+function doLinux() {
+  const main = script(p("main/main_linux.sh"))
+  const mainh = ipfsAddBuf(main)
+  const pre = read(p("pre/preamble_linux.sh"))
+  const presc = pre.replace("DOWNLOAD", ipfsDL(mainh))
+
+  console.log("---SCRIPT---")
+  console.log(presc)
+  console.log("---MAIN---")
+  console.log(main)
+}
+
 function main() {
   switch (platform) {
   case "win":
     log("DO", "win")
+    doWin()
     break;
   case "linux":
     log("DO", "linux")
-    const main = script(p("main/main_linux.sh"))
-    const mainh = ipfsAddBuf(main)
-    const pre = read(p("pre/preamble_linux.sh"))
-    const presc = pre.replace("DOWNLOAD", ipfsDL(mainh))
-    console.log("---SCRIPT---")
-    console.log(presc)
-    console.log("---MAIN---")
-    console.log(main)
+    doLinux()
     break;
   default:
     log("ERROR", "no platform specified")
