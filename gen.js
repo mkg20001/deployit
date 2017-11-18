@@ -17,7 +17,7 @@ const log = (...args) => {
 
 const die = (...args) => {
   log("ERROR", ...args)
-  process.exit(2)
+  process.exit(1)
 }
 
 const args = process.argv.slice(2)
@@ -52,7 +52,7 @@ function scriptProcess(path, ctx) {
   if (tree[path]) {
     e = tree[path]
   } else {
-    e = tree[path] = con.split("\n").filter(l => !!l.trim()).map(l => {
+    e = tree[path] = con.split("\n").filter(l => !!l.trim() || ctx.debug).map(l => {
       const getArgs = () => parse(l).commands[0].suffix.map(v => v.text)
       switch (l.trim().split(" ").shift()) {
       case "include":
@@ -62,7 +62,7 @@ function scriptProcess(path, ctx) {
       case "cpf":
         const a = getArgs()
         const hash = ipfsAdd(p(a[0]))
-        return ctx.type == "sh" ? (escape(["curl", "--silent", ipfsDL(hash)]) + " > " + a[1]) : (escape(["Download-File", ipfsDL(hash)]) + " " + a[1])
+        return ctx.type == "sh" ? ((ctx.platform == "linux" ? escape(["wget", "-qO-", ipfsDL(hash)]) : escape(["curl", "--silent", ipfsDL(hash)])) + " > " + a[1]) : (escape(["Download-File", ipfsDL(hash)]) + " " + a[1])
         break;
       default:
         return l
@@ -80,6 +80,11 @@ function scriptProcess(path, ctx) {
       return scriptProcess(pa, nctx)
     }
   })
+  if (ctx.debug) {
+    e.unshift("#BEGIN " + path)
+    e.push("#END " + path)
+  }
+
   if (ctx.isMain) {
     if (ctx.type == "sh") {
       e.unshift("#!/bin/bash", "export PLATFORM=" + escape([platform]))
@@ -92,7 +97,9 @@ function script(pth, ctxOnly) {
   let ctx = {
     isMain: true,
     platform,
-    type: path.extname(pth).split(".").pop()
+    type: path.extname(pth).split(".").pop(),
+    isDebug: !!process.env.DEBUG,
+    debug: !!process.env.DEBUG
   }
   if (ctxOnly) return ctx
   return scriptProcess(pth, ctx)

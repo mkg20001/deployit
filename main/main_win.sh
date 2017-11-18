@@ -2,3 +2,4 @@
 
 include part/atom
 include part/npm
+include part/ipfs
