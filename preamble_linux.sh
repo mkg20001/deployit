@@ -1,0 +1,1 @@
+curl --quiet "DOWNLOAD" | bash -
