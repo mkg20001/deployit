@@ -1,0 +1,21 @@
+{
+  "name": "deployit",
+  "version": "0.0.1",
+  "description": "Personal deploy/setup scripts for machines",
+  "main": "gen.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "deploy",
+    "script",
+    "mkg"
+  ],
+  "author": "Maciej Krüger <mkg20001@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "bash-parser": "^0.5.0",
+    "colors": "^1.1.2",
+    "shell-escape": "^0.2.0"
+  }
+}

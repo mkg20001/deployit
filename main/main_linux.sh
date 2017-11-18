@@ -1,3 +1,4 @@
 #!/bin/bash
 
-include atom.sh
+include part/atom
+include part/npm
