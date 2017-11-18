@@ -1,0 +1,68 @@
+"*":
+  "atom-beautify":
+    coffeescript:
+      indent_size: 2
+      max_preserve_newlines: 3
+    css: {}
+    html:
+      indent_size: 2
+    js:
+      end_with_newline: true
+      jslint_happy: true
+      max_preserve_newlines: 2
+      space_after_anon_function: true
+    json:
+      brace_style: "end-expand"
+      end_with_newline: true
+    markdown:
+      default_beautifier: "Remark"
+    python:
+      sort_imports: true
+    yaml: {}
+  "atom-clock":
+    dateFormat: "[Quarter] Q, [Week] W | dddd, MMMM Do YYYY | hh:mm"
+  "atom-material-ui":
+    colors:
+      paintCursor: true
+    tabs:
+      compactTabs: true
+      tintedTabBar: true
+    ui:
+      panelShadows: true
+  "autocomplete-plus":
+    autoActivationDelay: 500
+  core:
+    autoHideMenuBar: true
+    disabledPackages: [
+      "spell-check"
+    ]
+    followSymlinks: false
+    telemetryConsent: "limited"
+    themes: [
+      "atom-material-ui"
+      "one-dark-syntax"
+    ]
+  editor:
+    invisibles: {}
+  linter: {}
+  "linter-js-standard": {}
+  "linter-shellcheck": {}
+  "linter-ui-default":
+    panelHeight: 81
+  minimap:
+    adjustAbsoluteModeHeight: true
+    disablePythonDocLinks: true
+    plugins:
+      "git-diff": true
+      "git-diffDecorationsZIndex": 0
+      pigments: true
+      pigmentsDecorationsZIndex: 0
+  "split-diff":
+    diffWords: true
+    ignoreWhitespace: true
+    leftEditorColor: "red"
+    rightEditorColor: "green"
+    scrollSyncType: "Vertical + Horizontal"
+  "todo-show": {}
+  welcome:
+    showOnStartup: false

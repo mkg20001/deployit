@@ -62,7 +62,7 @@ function scriptProcess(path, ctx) {
       case "cpf":
         const a = getArgs()
         const hash = ipfsAdd(p(a[0]))
-        return ctx.type == "sh" ? (escape(["curl", "--silent", ipfsDL(hash)]) + " > " + escape(a[1])) : escape(["Download-File", ipfsDL(hash), a[1]])
+        return ctx.type == "sh" ? (escape(["curl", "--silent", ipfsDL(hash)]) + " > " + a[1]) : (escape(["Download-File", ipfsDL(hash)]) + " " + a[1])
         break;
       default:
         return l
@@ -105,7 +105,7 @@ function doWin() {
   const pre_mainh = ipfsAddBuf(pre_main)
   const pre = read(p("pre/preamble_win.ps1"))
   const presc = pre.replace("DOWNLOAD", ipfsDL(pre_mainh))
-  
+
   console.log("---SCRIPT---")
   console.log(presc)
   console.log("---PRE---")
