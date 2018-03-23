@@ -20,8 +20,7 @@ echo "Postinstall..."
 
 cd C:/
 Download-File "SCRIPTSC" "C:\dostuff.sh"
-Start-Job -ScriptBlock {
-  & cmd /C 'refreshenv && "C:\Program Files\Git\git-bash.exe" "/c/dostuff.sh"' | Out-Null
-}
+
+& cmd /C 'refreshenv && "C:\Program Files\Git\git-bash.exe" "/c/dostuff.sh"' | Out-Null
 
 #exit 0
