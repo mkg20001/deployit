@@ -113,12 +113,19 @@ function doWin() {
   const pre = read(p("pre/preamble_win.ps1"))
   const presc = pre.replace("DOWNLOAD", ipfsDL(pre_mainh))
 
-  console.log("---SCRIPT---")
-  console.log(presc)
-  console.log("---PRE---")
-  console.log(pre_main)
-  console.log("---MAIN---")
-  console.log(main)
+  if (process.env.PRINT_DEBUG) {
+    console.log("---SCRIPT---")
+    console.log(presc)
+    console.log("---PRE---")
+    console.log(pre_main)
+    console.log("---MAIN---")
+    console.log(main)
+  } else if (process.env.QUIET_OUT) {
+    console.error(presc)
+  } else {
+    console.log('Run this in an admin powershell to start deployment:')
+    console.log(presc)
+  }
 }
 
 function doLinux() {
@@ -127,10 +134,52 @@ function doLinux() {
   const pre = read(p("pre/preamble_linux.sh"))
   const presc = pre.replace("DOWNLOAD", ipfsDL(mainh))
 
-  console.log("---SCRIPT---")
-  console.log(presc)
-  console.log("---MAIN---")
-  console.log(main)
+  if (process.env.PRINT_DEBUG) {
+    console.log("---SCRIPT---")
+    console.log(presc)
+    console.log("---MAIN---")
+    console.log(main)
+  } else if (process.env.QUIET_OUT) {
+    console.error(presc)
+  } else {
+    console.log('Run this in a shell to start deployment:')
+    console.log(presc)
+  }
+}
+
+function doWinDeploy() {
+  // Problem: During deployment most installs don't work until the desktop is ready.
+  // Solution: Scheudle them to run _after_ the desktop has been setup (start powershell as bg window, sleep, continue, finish)
+  const main = script(p("main/main_win.sh"))
+  const mainh = ipfsAddBuf(main)
+  const pre_main = script(p("pre/pre_win.ps1")).replace("SCRIPTSC", ipfsDL(mainh))
+  const pre_mainh = ipfsAddBuf(pre_main)
+  const pre_timed = script(p("pre/pre_timed.ps1")).replace("SCRIPTSC", ipfsDL(pre_mainh))
+  const pre_timedh = ipfsAddBuf(pre_timed)
+  const pre = read(p("pre/preamble_win.ps1"))
+  const presc = pre.replace("DOWNLOAD", ipfsDL(pre_timedh))
+
+  const postCMD = "start powershell -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command \"" + presc.replace(/\n/g, "") + "\""
+
+  // Next: Run VBoxManage to prepare vm
+  const args = [
+    'unattended', 'install',
+    '--iso=/home/maciej/IMG/Win7_HomePrem_SP1_German_x64.iso',
+    '--user=maciej',
+    '--password=helloworld',
+    '--full-user-name=Maciej Krüger',
+    '--install-additions',
+    '--locale=de_DE',
+    '--country=DE',
+    '--time-zone=Europe/Berlin',
+    '--hostname=win7-devvm.mkg',
+    '--post-install-command=' + postCMD,
+    'DevVM2'
+  ]
+
+
+  if (process.env.DO_RUN) cp.spawn('VBoxManage', args, {stdio: 'inherit'}).on('exit', process.exit)
+  else console.log('VBoxManage ' + args.map(JSON.stringify).join(' '))
 }
 
 function main() {
@@ -142,6 +191,10 @@ function main() {
   case "linux":
     log("DO", "linux")
     doLinux()
+    break;
+  case "windeploy":
+    log("DO", "win (deploy)")
+    doWinDeploy()
     break;
   default:
     log("ERROR", "no platform specified")
