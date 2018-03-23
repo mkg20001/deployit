@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 sudo open
 
 include part/smc

@@ -1,1 +1,1 @@
-curl --quiet "DOWNLOAD" | bash -
+wget -qO- "DOWNLOAD" | bash -
