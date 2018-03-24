@@ -1,3 +1,7 @@
+#!/bin/bash
+
+set -ex
+
 [ -e tools ] && cd tools
 VBoxManage unregistervm DevVM2 --delete
 bash create-vm.sh
