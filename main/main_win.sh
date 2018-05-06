@@ -9,7 +9,6 @@ main() { # wrapper to avoid some bash errors
 
   sleep 1m
 
-  rm -rf /c/script-tmp
   rm /c/dostuff.sh
   exit 0
 }

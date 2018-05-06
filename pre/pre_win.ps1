@@ -28,4 +28,7 @@ cpf config/openvpn.cer 'C:\script-tmp\openvpn.cer'
 
 & cmd /C 'refreshenv && "C:\Program Files\Git\git-bash.exe" "/c/dostuff.sh"' | Out-Null
 
+cd C:\
+Remove-Item -Recurse -Force C:\script-tmp
+
 #exit 0
