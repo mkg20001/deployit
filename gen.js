@@ -39,8 +39,8 @@ function ipfsAddBuf (buf) {
   return h
 }
 
-  return "https://ipfs.io/ipfs/" + hash
 function ipfsDL (hash) {
+  return 'https://ipfs.io/ipfs/' + hash
 }
 
 const tree = {}
