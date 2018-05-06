@@ -6,7 +6,7 @@ include mod/dl_func.ps1
 
 Set-PSDebug -trace 1
 
-include part/net
+# include part/net
 
 Set-PSDebug -off
 
@@ -16,10 +16,10 @@ Set-PSDebug -trace 1
 
 include part/pkg_win
 
-echo "Postinstall..."
+mkdir C:\script-tmp
+cd C:\script-tmp
 
-cd C:/
-Download-File "SCRIPTSC" "C:\dostuff.sh"
+Download-File "SCRIPTSC" "C:\script-tmp\dostuff.sh"
 
 & cmd /C 'refreshenv && "C:\Program Files\Git\git-bash.exe" "/c/dostuff.sh"' | Out-Null
 

@@ -7,3 +7,5 @@ include part/npm
 include part/ipfs
 
 sleep 1m
+
+rm -rf /c/script-tmp

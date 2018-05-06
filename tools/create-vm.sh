@@ -2,19 +2,19 @@
 
 set -ex
 
-# VBoxManage createvm --name DevVM2 --ostype Windows7_64 --register
+# VBoxManage createvm --name "$VM_NAME" --ostype Windows7_64 --register
 [ ! -e gen.js ] && cd ..
-VBoxManage import devvm2.ova
+VBoxManage import "$VM_FILE.ova"
 DO_RUN=1 node gen.js windeploy
 cd tools
-VBoxManage startvm DevVM2 --type headless
+VBoxManage startvm "$VM_NAME" --type headless
 sleep 10s
 set +x
 echo "Waiting for setup to complete and VM to shut down..."
-while ! VBoxManage showvminfo DevVM2 --machinereadable --details | grep VMState= | grep poweroff > /dev/null 2> /dev/null; do
+while ! VBoxManage showvminfo "$VM_NAME" --machinereadable --details | grep VMState= | grep poweroff > /dev/null 2> /dev/null; do
   echo -n .
   sleep 10s
 done
 sleep 1s
 set -x
-VBoxManage snapshot DevVM2 take Setup
+VBoxManage snapshot "$VM_NAME" take Setup

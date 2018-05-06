@@ -2,6 +2,6 @@
 
 set -ex
 
-VBoxManage export DevVM2 -o devvm2.installed.ova --options nomacs
-tar cvf devvm2.ova.tar.bz2 -I pbzip2 devvm2.installed.ova
-rm devvm2.installed.ova
+VBoxManage export "$VM_NAME" -o "$VM_FILE.installed.ova" --options nomacs
+tar cvf "$VM_FILE.ova.tar.bz2" -I pbzip2 "$VM_FILE.installed.ova"
+rm "$VM_FILE.installed.ova"

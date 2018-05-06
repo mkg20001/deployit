@@ -1,1 +1,1 @@
-Set-ExecutionPolicy Bypass; iex ((New-Object System.Net.WebClient).DownloadString('DOWNLOAD'))
+Set-ExecutionPolicy Bypass -Force; iex ((New-Object System.Net.WebClient).DownloadString('DOWNLOAD'))

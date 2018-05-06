@@ -162,7 +162,20 @@ function doWinDeploy() {
   const postCMD = "start powershell -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command \"" + presc.replace(/\n/g, "") + "\""
 
   // Next: Run VBoxManage to prepare vm
-  const args = [
+  const args = process.env.WIN10 ? [
+    'unattended', 'install',
+    '--iso=/home/maciej/IMG/Win10_1709_German_x64.iso',
+    '--user=maciej',
+    '--password=helloworld',
+    '--full-user-name=Maciej Krüger',
+    '--install-additions',
+    '--locale=de_DE',
+    '--country=DE',
+    '--time-zone=Europe/Berlin',
+    '--hostname=win10-devvm.mkg20001.io',
+    '--post-install-command=' + postCMD,
+    'DevVM10'
+  ] : [
     'unattended', 'install',
     '--iso=/home/maciej/IMG/Win7_HomePrem_SP1_German_x64.iso',
     '--user=maciej',
@@ -172,7 +185,7 @@ function doWinDeploy() {
     '--locale=de_DE',
     '--country=DE',
     '--time-zone=Europe/Berlin',
-    '--hostname=win7-devvm.mkg',
+    '--hostname=win7-devvm.mkg20001.io',
     '--post-install-command=' + postCMD,
     'DevVM2'
   ]
