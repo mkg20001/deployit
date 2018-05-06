@@ -19,7 +19,7 @@ include part/pkg_win
 mkdir C:\script-tmp
 cd C:\script-tmp
 
-Download-File "SCRIPTSC" "C:\script-tmp\dostuff.sh"
+Download-File "SCRIPTSC" "C:\dostuff.sh"
 
 & cmd /C 'refreshenv && "C:\Program Files\Git\git-bash.exe" "/c/dostuff.sh"' | Out-Null
 
